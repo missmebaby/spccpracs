@@ -1,0 +1,64 @@
+def symbol_type(symbol):
+    if symbol.isalpha() or symbol.isnumeric():
+        return "identifier"
+    else:
+        return "operator"
+
+
+# define expression
+expression = ""
+# define symbol adresses
+symbol_addresses = {}
+while True:
+    choice = int(input("ENTER THE CHOICE\n 1.CREATE TABLE\n 2.SEARCH SYMBOL\n 3.ENTER SYMBOL\n 4.REMOVE SYMBOL\n 5.VIEW TABLE\n 6.EXIT\n"))
+    
+    # create table
+    if choice == 1:
+        new_expression = input("ENTER THE EXPRESSION\n")
+        expression += new_expression
+        expression.replace(' ','')
+        # assign address to the symbol
+        address = 1000
+        for symbol in expression:
+            if symbol not in symbol_addresses:
+                symbol_addresses[symbol] = address
+                address += 1
+                
+    # search symbol
+    elif choice == 2:
+        symbol = input("ENTER THE SYMBOL TO BE SEARCHED:\n")
+        if symbol in symbol_addresses:
+            print("SYMBOL: ",symbol,"| ADDRESS: ",symbol_addresses[symbol],"| TYPE: ",symbol_type(symbol))
+        else:
+            print("SYMBOL NOT FOUND")
+            
+    # enter symbol
+    elif choice == 3:
+        symbol = input("ENTER THE SYMBOL:\n")
+        expression += symbol
+        if symbol not in symbol_addresses:
+            symbol_addresses[symbol] = 1000 + len(symbol_addresses) 
+        
+    # remove symbol
+    elif choice == 4:
+        symbol = input("ENTER THE SYMBOL TO BE REMOVED:\n")
+        expression = expression.replace(symbol, '')
+        if symbol in symbol_addresses:
+            del symbol_addresses[symbol]
+    
+    # view table
+    elif choice == 5:
+        for symbol in expression:
+            if symbol in symbol_addresses:
+                print("SYMBOL: ",symbol,"| ADDRESS: ",symbol_addresses[symbol],"| TYPE: ",symbol_type(symbol))
+            else:
+                print("SYMBOL: ",symbol,"| ADDRESS: NOT ASSIGNED","| TYPE: ",symbol_type(symbol))
+            
+    # exit
+    elif choice == 6:
+        break
+        
+    else:
+        print("ENTER A VALID CHOICE")
+
+
