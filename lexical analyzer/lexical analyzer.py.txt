@@ -1,0 +1,35 @@
+def isfloat(num):
+  try:
+    float(num)
+    return True
+  except ValueError:
+    return False
+
+
+keywords="auto break case char cons continue default do double else enum float for goto if extern int long register returnshort sizeof static struc switch typedef void while"
+kwlist = keywords.split()
+operators = "+ - * / ++ -- < = <= > >= == != && ! ?: & << >> ^ ~ += -= *= /= %="
+oplist = operators.split()
+schar = "{ } ( ) $ @ ;"
+scharlist = schar.split()
+
+
+inputFile = open('input.txt','r')
+tokens = inputFile.read().split()
+
+
+for token in tokens:
+  if token in kwlist:
+    print(token,"is keyword")
+  elif token in oplist:
+    print(token,"is operator")
+  elif token in scharlist:
+    print(token,"is a special symbol")
+  elif token.isnumeric():
+    print(token,"is constant")
+  elif token.isalpha():
+    print(token,"is identifier")
+  elif token[0]=='"' or token[0]=="'":
+    print(token,"is literal")
+  else :
+    print(token,"is special symbol")
