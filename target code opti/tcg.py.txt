@@ -1,0 +1,60 @@
+registers = []
+result = []
+arg1 = []
+arg2 = []
+op = []
+def get_instr(operator):
+    if operator == "+":
+        return "ADD"
+    return "SUB"
+    
+def find_reg(operand):
+    for index in range(len(registers)):
+        if registers[index] == operand:
+            return index
+    return -1
+
+def gen_register():
+    return len(registers)
+
+code = ""
+line_count = 0
+
+with open("input.txt", "r") as file:
+    for line in file:
+        line = line.rstrip().split(" ")
+        result.append(line[0])
+        arg1.append(line[2])
+        if len(line) > 3:
+            op.append(line[3])
+            arg2.append(line[4])
+        else:
+            op.append(None)
+            arg2.append(None)
+        line_count += 1
+
+for i in range(line_count):
+    if op[i]:
+        temp1 = find_reg(arg1[i])
+        temp2 = find_reg(arg2[i])
+        tempReg = 0
+
+        if temp1 == -1 and temp2 == -1: # registers containing that operand does not exist
+            tempReg = gen_register() # generate new register
+            code += f"MOV {arg1[i]}, R{tempReg}\n"
+            code += f"{get_instr(op[i])} {arg2[i]}, R{tempReg}\n"
+            registers.append(result[i])
+        elif not temp1 == -1 and not temp2 == -1: # registers containing that operand exist
+            code += f"{get_instr(op[i])} R{temp1}, R{temp2}\n"
+            registers[temp2] = result[i]
+    else:
+        temp1 = find_reg(arg1[i])
+        if not temp1 == -1: # registers containing that operand exist
+            code += f"MOV R{temp1}, {result[i]}\n"
+        else:
+            tempReg = gen_register()
+            code += f"MOV {arg1[i]}, R{tempReg}\n"
+            code += f"MOV R{tempReg}, {result[i]}"
+print(code)
+
+
