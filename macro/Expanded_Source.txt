@@ -1,0 +1,10 @@
+pg1 start 0
+** using *,15
+** L 1,five
+ar 5,3
+sr 5,4
+five dc H'5'
+ar 5,3
+sr 5,4
+mr 5,3
+** END **
